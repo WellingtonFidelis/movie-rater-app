@@ -6,6 +6,11 @@ import './App.css';
 function App() {
 
   const [movies, setMovies] = useState([]);
+const [selectedMovie, setSelectedMovie] = useState(null);
+
+  const movieClicked = movie => {
+    setSelectedMovie(movie);
+  }
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/movies/", {
@@ -27,7 +32,7 @@ function App() {
         <h1>Movie & Rater</h1>
       </header>
       <div className="layout">
-        <MovieList movies={movies}/>
+        <MovieList movies={movies} movieClicked={movieClicked}/>
         <div>Movie details</div>
       </div>
     </div>
