@@ -25,7 +25,13 @@ SECRET_KEY = 'django-insecure-m0oj)0v!3nf5o9v)7_vov%s$7f(*bq2zmr^pbaqsq5rx)%d-@+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    '172.30.104.188',
+    '192.168.33.106',
+    '172.30.96.1',
+]
 
 
 # Application definition
@@ -59,6 +65,10 @@ CORS_ORIGIN_WHITELIST = [
     'http://127.0.0.1:8000',
     'http://127.0.0.1:3000',
     'http://localhost:3000',
+    'http://172.30.104.188:8000',
+    'http://172.30.104.188:3000',
+    'http://172.30.96.1:3000',
+    'http://172.30.96.1:8000',
 ]
 
 ROOT_URLCONF = 'movierater.urls'

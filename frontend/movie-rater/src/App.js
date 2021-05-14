@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+
+import MovieList from './components/movie-list';
 import './App.css';
 
 function App() {
@@ -10,7 +12,8 @@ function App() {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Token 97621ce2baeb11f722db66ad0ecf1ce78898361b'
+        //'Authorization': 'Token 97621ce2baeb11f722db66ad0ecf1ce78898361b',
+        'Authorization': 'Token 8f902b9af361c445af29f69aa1683ac4fb44061a'
       },
     })
       .then(response => response.json())
@@ -24,13 +27,7 @@ function App() {
         <h1>Movie & Rater</h1>
       </header>
       <div className="layout">
-        <div>
-          {movies.map((movie) => {
-            return (
-              <h2 key={movie.id}>{movie.title}</h2>
-            );
-          })}
-        </div>
+        <MovieList movies={movies}/>
         <div>Movie details</div>
       </div>
     </div>
