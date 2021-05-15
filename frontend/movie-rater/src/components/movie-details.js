@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 
 export default function MovieDetails(props) {
-  const { movie } = props;
+  let { movie } = props;
   const [highlighted, setHighlighted] = useState(-1);
 
   const highlightRate = high => event => {
@@ -23,8 +23,21 @@ export default function MovieDetails(props) {
         stars: rate + 1,
       }),
     })
+      .then(() => getDetails())
+      .catch(error => console.log(error));
+  }
+
+  const getDetails = () => {
+    fetch(`http://127.0.0.1:8000/api/movies/${movie.id}/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        //'Authorization': 'Token 97621ce2baeb11f722db66ad0ecf1ce78898361b',
+        'Authorization': 'Token 8f902b9af361c445af29f69aa1683ac4fb44061a'
+      }
+    })
       .then(response => response.json())
-      .then(response => console.log(response))
+      .then(response => props.updateMovie(response))
       .catch(error => console.log(error));
   }
 
