@@ -1,7 +1,16 @@
 import React from 'react';
 
 export default function MovieForm(props) {
+
+  let { movie } = props;
+
   return (
-    <h1>{props.movie && props.movie.title} edit</h1>
+    <React.Fragment>
+      {
+        movie ? (
+          <h1>{movie && movie.title} edit</h1>
+        ) : null
+      }
+    </React.Fragment>
   );
 };

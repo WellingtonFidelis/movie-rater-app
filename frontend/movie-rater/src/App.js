@@ -11,16 +11,19 @@ function App() {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [editedMovie, setEditedMovie] = useState(null)
 
+  /*
   const movieClicked = movie => {
     setSelectedMovie(movie);
   }
-
+  */
   const loadMovie = movie => {
     setSelectedMovie(movie);
+    setEditedMovie(null);
   }
 
   const editClicked = movie => {
     setEditedMovie(movie);
+    setSelectedMovie(null);
   }
 
   useEffect(() => {
@@ -28,8 +31,9 @@ function App() {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        //'Authorization': 'Token 97621ce2baeb11f722db66ad0ecf1ce78898361b',
-        'Authorization': 'Token 8f902b9af361c445af29f69aa1683ac4fb44061a'
+        //Ubuntu Note'Authorization': 'Token 97621ce2baeb11f722db66ad0ecf1ce78898361b',
+        // WSL'Authorization': 'Token 8f902b9af361c445af29f69aa1683ac4fb44061a'
+        'Authorization': 'Token e29386be51ab221eaeee59a73b7d70a80428907d'
       },
     })
       .then(response => response.json())
@@ -43,7 +47,7 @@ function App() {
         <h1>Movie & Rater</h1>
       </header>
       <div className="layout">
-        <MovieList movies={movies} movieClicked={movieClicked} editClicked={editClicked} />
+        <MovieList movies={movies} movieClicked={loadMovie} editClicked={editClicked} />
         <MovieDetails movie={selectedMovie} updateMovie={loadMovie} />
         <MovieForm movie={editedMovie} />
       </div>

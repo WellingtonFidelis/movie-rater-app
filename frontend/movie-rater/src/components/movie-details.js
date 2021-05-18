@@ -16,8 +16,9 @@ export default function MovieDetails(props) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        //'Authorization': 'Token 97621ce2baeb11f722db66ad0ecf1ce78898361b',
-        'Authorization': 'Token 8f902b9af361c445af29f69aa1683ac4fb44061a'
+        //Ubuntu Note'Authorization': 'Token 97621ce2baeb11f722db66ad0ecf1ce78898361b',
+        // WSL'Authorization': 'Token 8f902b9af361c445af29f69aa1683ac4fb44061a'
+        'Authorization': 'Token e29386be51ab221eaeee59a73b7d70a80428907d'
       },
       body: JSON.stringify({
         stars: rate + 1,
@@ -32,9 +33,10 @@ export default function MovieDetails(props) {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        //'Authorization': 'Token 97621ce2baeb11f722db66ad0ecf1ce78898361b',
-        'Authorization': 'Token 8f902b9af361c445af29f69aa1683ac4fb44061a'
-      }
+        //Ubuntu Note'Authorization': 'Token 97621ce2baeb11f722db66ad0ecf1ce78898361b',
+        // WSL'Authorization': 'Token 8f902b9af361c445af29f69aa1683ac4fb44061a'
+        'Authorization': 'Token e29386be51ab221eaeee59a73b7d70a80428907d'
+      },
     })
       .then(response => response.json())
       .then(response => props.updateMovie(response))
