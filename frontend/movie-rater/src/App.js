@@ -26,6 +26,17 @@ function App() {
     setSelectedMovie(null);
   }
 
+  const updatedMovie = movie => {
+    const newMovies = movies.map(mov => {
+      if (mov.id === movie.id) {
+        return movie;
+      }
+      return mov;
+    });
+
+    setMovies(newMovies);
+  }
+
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/movies/", {
       method: 'GET',
@@ -50,7 +61,7 @@ function App() {
         <MovieList movies={movies} movieClicked={loadMovie} editClicked={editClicked} />
         <MovieDetails movie={selectedMovie} updateMovie={loadMovie} />
         {
-          editedMovie ? <MovieForm movie={editedMovie} /> : null 
+          editedMovie ? <MovieForm movie={editedMovie} updatedMovie={updatedMovie} /> : null
         }
       </div>
     </div>

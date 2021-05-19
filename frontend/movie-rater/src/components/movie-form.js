@@ -10,7 +10,7 @@ export default function MovieForm(props) {
 
   const updateClicked = () => {
     apiMovieRater.updatedMovie(movie.id, { title, description })
-      .then(response => console.log(response))
+      .then(response => props.updatedMovie(response))
       .catch(error => console.log(error));
   }
 
