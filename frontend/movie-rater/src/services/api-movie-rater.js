@@ -6,8 +6,8 @@
 const TOKEN = "e29386be51ab221eaeee59a73b7d70a80428907d";
 
 class apiMovieRater {
-  
-   static updatedMovie(movie_id, body) {
+
+  static updatedMovie(movie_id, body) {
     return fetch(`http://127.0.0.1:8000/api/movies/${movie_id}/`, {
       method: 'PUT',
       headers: {
@@ -16,8 +16,30 @@ class apiMovieRater {
       },
       body: JSON.stringify(body),
     })
-    .then(response => response.json());
+      .then(response => response.json());
+  }
+
+  static createMovie(body) {
+    return fetch(`http://127.0.0.1:8000/api/movies/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${TOKEN}`,
+      },
+      body: JSON.stringify(body),
+    })
+      .then(response => response.json());
+  }
+
+  static deleteMovie(movie_id) {
+    return fetch(`http://127.0.0.1:8000/api/movies/${movie_id}/`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${TOKEN}`,
+      },
+    });
   }
 }
 
-export {apiMovieRater};
+export { apiMovieRater };
