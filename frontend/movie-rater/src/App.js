@@ -4,12 +4,14 @@ import MovieList from './components/movie-list';
 import MovieDetails from './components/movie-details';
 import MovieForm from './components/movie-form';
 import './App.css';
+import { useCookies } from 'react-cookie';
 
 function App() {
 
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const [editedMovie, setEditedMovie] = useState(null)
+  const [editedMovie, setEditedMovie] = useState(null);
+  const [token] = useCookies(['mr-token']);
 
   /*
   const movieClicked = movie => {
@@ -38,7 +40,7 @@ function App() {
   }
 
   const newMovie = () => {
-    setEditedMovie({title: '', description: ''});
+    setEditedMovie({ title: '', description: '' });
     setSelectedMovie(null);
   }
 
@@ -57,15 +59,17 @@ function App() {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        //Ubuntu Note'Authorization': 'Token 97621ce2baeb11f722db66ad0ecf1ce78898361b',
-        // WSL'Authorization': 'Token 8f902b9af361c445af29f69aa1683ac4fb44061a'
-        'Authorization': 'Token e29386be51ab221eaeee59a73b7d70a80428907d'
+        'Authorization': `Token ${token['mr-token']}`,
       },
     })
       .then(response => response.json())
       .then(response => setMovies(response))
       .catch(error => console.log(error));
-  }, []);
+  }, [token]);
+
+  useEffect(() => { 
+    if (!token['mr-token']) window.location.href = '/'
+  }, [token]);
 
   return (
     <div className="App">
@@ -74,9 +78,9 @@ function App() {
       </header>
       <div className="layout">
         <div>
-          <MovieList 
-            movies={movies} 
-            movieClicked={loadMovie} 
+          <MovieList
+            movies={movies}
+            movieClicked={loadMovie}
             editClicked={editClicked}
             removeClicked={removeClicked}
           />
@@ -86,7 +90,7 @@ function App() {
         {
           editedMovie ? (
             <MovieForm movie={editedMovie} updatedMovie={updatedMovie} movieCreated={movieCreated} />
-           ) : null
+          ) : null
         }
       </div>
     </div>

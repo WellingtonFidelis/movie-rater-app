@@ -1,29 +1,28 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { apiMovieRater } from '../services/api-movie-rater';
-import { TokenContext } from '../index';
+//import { TokenContext } from '../index';
+import { useCookies } from 'react-cookie';
 
 export default function Auth() {
 
   const [userName, setUserName] = useState('');
   const [userPassword, setUserPassword] = useState('');
 
-  const {token, setToken} = useContext(TokenContext);
+  const [token, setToken] = useCookies(['mr-token']);
 
   const LoginClicked = () => {
     apiMovieRater.loginUser({
       username: userName,
       password: userPassword,
     })
-      .then(response => setToken(response.token))
+      .then(response => setToken('mr-token', response.token))
       .catch(error => console.log(error));
   }
 
   useEffect(() => {
-    console.log(token);
-    if (token) {
-      window.location.href = '/movies';
-    }
+    // console.log(token);
+    if (token['mr-token']) { window.location.href = '/movies'; }
   }, [token])
 
   return (

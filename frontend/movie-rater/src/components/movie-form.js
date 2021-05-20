@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 import { apiMovieRater } from '../services/api-movie-rater';
 
 export default function MovieForm(props) {
@@ -7,15 +8,16 @@ export default function MovieForm(props) {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [token] = useCookies(['mr-token']);
 
   const updateClicked = () => {
-    apiMovieRater.updatedMovie(movie.id, { title, description })
+    apiMovieRater.updatedMovie(movie.id, { title, description }, token['mr-token'])
       .then(response => props.updatedMovie(response))
       .catch(error => console.log(error));
   }
 
   const createClicked = () => {
-    apiMovieRater.createMovie({ title, description })
+    apiMovieRater.createMovie({ title, description }, token['mr-token'])
       .then(response => props.movieCreated(response))
       .catch(error => console.log(error));
   }

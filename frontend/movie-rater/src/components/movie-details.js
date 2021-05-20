@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { useCookies } from 'react-cookie';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 
 export default function MovieDetails(props) {
+
   let { movie } = props;
   const [highlighted, setHighlighted] = useState(-1);
+  const [token] = useCookies(['mr-token']);
 
   const highlightRate = high => event => {
     setHighlighted(high);
@@ -16,9 +19,7 @@ export default function MovieDetails(props) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        //Ubuntu Note'Authorization': 'Token 97621ce2baeb11f722db66ad0ecf1ce78898361b',
-        // WSL'Authorization': 'Token 8f902b9af361c445af29f69aa1683ac4fb44061a'
-        'Authorization': 'Token e29386be51ab221eaeee59a73b7d70a80428907d'
+        'Authorization': `Token ${token['mr-token']}`,
       },
       body: JSON.stringify({
         stars: rate + 1,
@@ -33,9 +34,7 @@ export default function MovieDetails(props) {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        //Ubuntu Note'Authorization': 'Token 97621ce2baeb11f722db66ad0ecf1ce78898361b',
-        // WSL'Authorization': 'Token 8f902b9af361c445af29f69aa1683ac4fb44061a'
-        'Authorization': 'Token e29386be51ab221eaeee59a73b7d70a80428907d'
+        'Authorization': `Token ${token['mr-token']}`,
       },
     })
       .then(response => response.json())
