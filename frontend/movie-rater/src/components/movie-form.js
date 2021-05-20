@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {apiMovieRater} from '../services/api-movie-rater';
+import { apiMovieRater } from '../services/api-movie-rater';
 
 export default function MovieForm(props) {
 
