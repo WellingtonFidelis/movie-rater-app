@@ -22,6 +22,8 @@ export default function MovieForm(props) {
       .catch(error => console.log(error));
   }
 
+  const isDisabled = title.length === 0 || description.length === 0;
+
   useEffect(() => {
     setTitle(movie.title);
     setDescription(movie.description);
@@ -31,7 +33,7 @@ export default function MovieForm(props) {
     <React.Fragment>
       {
         movie ? (
-          <fieldset>
+          <fieldset className="form-container">
             <label htmlFor="inputTitle">Title</label>
             <input
               type="text"
@@ -54,9 +56,9 @@ export default function MovieForm(props) {
             ></textarea>
             {
               movie.id ? (
-                <button onClick={updateClicked} >Update</button>
+                <button onClick={updateClicked} disabled={isDisabled}>Update</button>
               ) : (
-                <button onClick={createClicked} >Create</button>
+                <button onClick={createClicked} disabled={isDisabled}>Create</button>
               )
             }
           </fieldset>

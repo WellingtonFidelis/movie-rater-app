@@ -6,7 +6,7 @@
 }
 
 .App-header {
-  text-align: start;
+  text-align: center;
   font-size: calc(10px + 2vmin);
 }
 
@@ -18,6 +18,45 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
+}
+
+.login-container {
+  width: 50%;
+  margin: 0 25%;
+  padding: 10px 40px 5px 15px;
+}
+
+.login-container p {
+  cursor: pointer;
+}
+
+.form-container {
+  width: 50%;
+  margin: 0 25%;
+  padding: 10px 40px 5px 15px;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0px;
+  font-size: 0.8rem;
+}
+
+button {
+  color: #444;
+  background-color: #f3f3f3;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 0.8rem;
+  outline: none;
+}
+
+button:disabled {
+  color: #f3f3f3;
+  background-color: #444;
 }
 
 .orange {
@@ -33,7 +72,7 @@
   border-top: 2px solid purple;
 }
 
-.rate-container .fa-star{
+.rate-container .fa-star {
   font-size: 1.5rem;
   cursor: pointer;
 }
@@ -46,4 +85,17 @@
 .movie-item svg {
   font-size: 1.2rem;
   margin: 16px 5px;
+}
+
+.fa-trash {
+  color: #e27a7a;
+}
+
+h1 {
+  color: orange;
+}
+
+h1 .fa-film {
+  color: white;
+  transform: rotate(30deg);
 }
