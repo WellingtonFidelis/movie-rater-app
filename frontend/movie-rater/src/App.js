@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import MovieList from './components/movie-list';
 import MovieDetails from './components/movie-details';
 import MovieForm from './components/movie-form';
+import { useFetch } from './hooks/useFetch';
 import './App.css';
 import { useCookies } from 'react-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,8 +14,9 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [editedMovie, setEditedMovie] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [token, setToken, deleteToken] = useCookies(['mr-token']);
-
+  const [data, loading, error] = useFetch();
   /*
   const movieClicked = movie => {
     setSelectedMovie(movie);
@@ -73,18 +75,25 @@ function App() {
       .catch(error => console.log(error));
   }, [token]);
 
-  useEffect(() => { 
+  useEffect(() => {
     if (!token['mr-token']) window.location.href = '/'
   }, [token]);
+
+  useEffect(() => {
+    setMovies(data);
+  },[data]);
+
+  if (loading) return <h1>Loading...</h1>
+  if (error) return <h1>Error on load movies: {error} </h1>
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>
           <FontAwesomeIcon icon={faFilm} />
-          <span>Movie & Rater</span>          
+          <span>Movie & Rater</span>
         </h1>
-        <FontAwesomeIcon icon={faSignOutAlt} onClick={logOutUser}/>
+        <FontAwesomeIcon icon={faSignOutAlt} onClick={logOutUser} />
       </header>
       <div className="layout">
         <div>
