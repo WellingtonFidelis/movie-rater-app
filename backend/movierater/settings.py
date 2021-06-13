@@ -69,6 +69,12 @@ CORS_ORIGIN_WHITELIST = [
     'http://172.30.104.188:3000',
     'http://172.30.96.1:3000',
     'http://172.30.96.1:8000',
+    'http://127.0.0.1:19000',
+    'http://127.0.0.1:19002',
+    'http://127.0.0.1:19006',
+    'http://localhost:19000',
+    'http://localhost:19002',
+    'http://localhost:19006',
 ]
 
 ROOT_URLCONF = 'movierater.urls'
