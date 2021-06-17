@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
+import apiMovieRater from '../services/apiMovieRater';
 
-const token = '719d5afd473cbcfcde2e451f703a050e0cde7527';
+const token = '1495eefde1471d75f532c373b7d10d9ac9706c79';
 
 export default function MovieList() {
 
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/movies/', {
+    /* fetch('http://127.0.0.1:8000/api/movies/', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -16,18 +17,22 @@ export default function MovieList() {
       },
     }).then(response => response.json())
       .then(jsonResponse => setMovies(jsonResponse))
-      .catch(error => console.log(error));
-  }, [])
+      .catch(error => console.log(error)); */
+
+    const response = apiMovieRater.get('movies/').then(response => response.data).then(response => setMovies(response));
+  }, []);
 
   return (
-    <View style={styles.container}>
+    <View>
       <Text>This will be a list.</Text>
       <FlatList
         data={movies}
         renderItem={({ item }) => (
-          <Text key={item.id}>{item.title}</Text>
+          <View style={styles.item}>
+            <Text style={styles.item}>{item.title}</Text>
+          </View>
         )}
-        keyExtractor={(item, index) => item.id.toString()}
+        keyExtractor={(item, index) => index.toString()}
       />
     </View>
   );
@@ -39,5 +44,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  item: {
+    flex: 1,
+    padding: 10,
+    height: 50,
+    backgroundColor: '#282c35'
+  },
+  itemText: {
+    color: '#fff',
+    flex: 1,
   },
 });

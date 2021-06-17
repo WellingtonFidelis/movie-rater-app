@@ -30,6 +30,7 @@ ALLOWED_HOSTS = [
     'localhost',
     '172.30.104.188',
     '192.168.33.106',
+    '192.168.33.107',
     '172.30.96.1',
 ]
 
@@ -75,6 +76,9 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:19000',
     'http://localhost:19002',
     'http://localhost:19006',
+    'http://192.168.33.107:19000',
+    'http://192.168.33.107:19002',
+    'http://192.168.33.107:19006',
 ]
 
 ROOT_URLCONF = 'movierater.urls'
