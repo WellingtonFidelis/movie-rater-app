@@ -1,4 +1,4 @@
 {
-  "python.pythonPath": "C:\\Users\\welli\\AppData\\Local\\Microsoft\\WindowsApps\\python3.9.exe",
+  "python.pythonPath": "venv/bin/python",
   "python.formatting.provider": "yapf"
 }

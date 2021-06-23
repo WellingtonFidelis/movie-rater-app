@@ -6,8 +6,8 @@ import axios from 'react-native-axios';
 ** Simulador IOS:           http://localhost:3333/
 */
 
-const token = '1495eefde1471d75f532c373b7d10d9ac9706c79';
-
+// api windows const token = '1495eefde1471d75f532c373b7d10d9ac9706c79';
+const token = '719d5afd473cbcfcde2e451f703a050e0cde7527';
 const apiMovieRater = axios.create({
   baseURL: 'http://127.0.0.1:8000/api/',
 });
