@@ -5,12 +5,28 @@ export default function Edit(props) {
 
   const movie = props.navigation.getParam('movie', null);
 
-  const [title, setTitle ] = useState(movie.title);
-  const [description, setDescription ] = useState(movie.description);
+  const [title, setTitle] = useState(movie.title);
+  const [description, setDescription] = useState(movie.description);
 
   const saveMovie = () => {
-    props.navigation.goBack();
+
+    try {
+      const response = apiMovieRater.put(`movies/${movie.id}/`, JSON.stringify({
+        title: title,
+        description: description,
+      })
+      )
+        .then(response => response.json())
+        .then(movie => {
+          console.log(movie);
+        });
+      props.navigation.goBack();
+    } catch (error) {
+      console.log('Error when try save movie. ' + error)
+    }
   };
+
+
 
   return (
     <View style={styles.container}>
@@ -29,8 +45,8 @@ export default function Edit(props) {
         value={description}
       />
       <Button
-       onPress={() => saveMovie()}
-       title="Save"
+        onPress={() => saveMovie()}
+        title="Save"
       />
     </View>
   );

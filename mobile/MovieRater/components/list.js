@@ -19,7 +19,9 @@ export default function MovieList(props) {
       .then(jsonResponse => setMovies(jsonResponse))
       .catch(error => console.log(error)); */
 
-    const response = apiMovieRater.get('movies/').then(response => response.data).then(response => setMovies(response));
+    const response = apiMovieRater.get('movies/')
+      .then(response => response.data)
+      .then(response => setMovies(response));
   }, []);
 
   const movieClicked = (movie) => {
