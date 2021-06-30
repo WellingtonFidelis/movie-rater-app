@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, View, Image } from 'react-native';
+import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import apiMovieRater from '../services/apiMovieRater';
 
 const token = '1495eefde1471d75f532c373b7d10d9ac9706c79';
 
-export default function MovieList() {
+export default function MovieList(props) {
 
   const [movies, setMovies] = useState([]);
 
@@ -22,19 +22,27 @@ export default function MovieList() {
     const response = apiMovieRater.get('movies/').then(response => response.data).then(response => setMovies(response));
   }, []);
 
+  const movieClicked = (movie) => {
+    props.navigation.navigate('Detail', { movie: movie, title: movie.title });
+  }
+
   return (
     <View>
       {/* <Text>This will be a list.</Text> */}
-      <Image source={require('../assets/adaptive-icon.png')}
-        style={{width: '100%', height: 135, paddingTop: 30}}
+      <Image source={require('../assets/MR_logo.png')}
+        style={{ width: '100%', height: 135, paddingTop: 30 }}
         resizeMode="contain"
       />
       <FlatList
         data={movies}
         renderItem={({ item }) => (
-          <View style={styles.item}>
-            <Text style={styles.itemText}>{item.title}</Text>
-          </View>
+          <TouchableOpacity
+            onPress={() => movieClicked(item)}
+          >
+            <View style={styles.item}>
+              <Text style={styles.itemText}>{item.title}</Text>
+            </View>
+          </TouchableOpacity>
         )}
         keyExtractor={(item, index) => index.toString()}
       />
