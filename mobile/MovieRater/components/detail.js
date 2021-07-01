@@ -6,10 +6,14 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 export default function Detail(props) {
 
+  const [highlight, setHighlight] = useState(0);
   const movie = props.navigation.getParam('movie', null);
 
   const editMovie = () => {
-    props.navigation.navigate('Edit', { movie: movie});
+    props.navigation.navigate('Edit', { movie: movie });
+  }
+  const rateClicked = () => {
+    console.log(highlight);
   }
   return (
     <View style={styles.container}>
@@ -23,7 +27,44 @@ export default function Detail(props) {
         <Text style={styles.white}> ({movie.no_of_ratings})</Text>
       </View>
       <Text style={styles.description}>{movie.description}</Text>
+      <View style={{ marginBottom: 20 }} />
       <Button title="Edit" onPress={() => editMovie()} />
+      <View style={{ borderBottomColor: 'white', borderBottomWidth: 2, marginTop: 20 }} />
+      <Text style={styles.description}>Rate</Text>
+      <View style={styles.starContainer}>
+        <FontAwesomeIcon
+          style={highlight > 0 ? styles.purple : styles.grey}
+          icon={faStar}
+          size={35}
+          onPress={() => setHighlight(1)}
+        />
+        <FontAwesomeIcon
+          style={highlight > 1 ? styles.purple : styles.grey}
+          icon={faStar}
+          size={35}
+          onPress={() => setHighlight(2)}
+        />
+        <FontAwesomeIcon
+          style={highlight > 2 ? styles.purple : styles.grey}
+          icon={faStar}
+          size={35}
+          onPress={() => setHighlight(3)}
+        />
+        <FontAwesomeIcon
+          style={highlight > 3 ? styles.purple : styles.grey}
+          icon={faStar}
+          size={35}
+          onPress={() => setHighlight(4)}
+        />
+        <FontAwesomeIcon
+          style={highlight > 4 ? styles.purple : styles.grey}
+          icon={faStar}
+          size={35}
+          onPress={() => setHighlight(5)}
+        />
+      </View>
+      <View style={{ marginBottom: 20 }} />
+      <Button title="Rate it." onPress={() => rateClicked()} color="purple" />
     </View>
   );
 }
@@ -76,6 +117,12 @@ const styles = StyleSheet.create({
   },
   white: {
     color: 'white',
+  },
+  purple: {
+    color: 'purple',
+  },
+  grey: {
+    color: 'grey',
   },
   description: {
     fontSize: 20,

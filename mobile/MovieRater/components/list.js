@@ -32,7 +32,7 @@ export default function MovieList(props) {
     <View>
       {/* <Text>This will be a list.</Text> */}
       <Image source={require('../assets/MR_logo.png')}
-        style={{ width: '100%', height: 135, paddingTop: 30 }}
+        style={{ width: '100%', height: 140, paddingTop: 30 }}
         resizeMode="contain"
       />
       <FlatList
