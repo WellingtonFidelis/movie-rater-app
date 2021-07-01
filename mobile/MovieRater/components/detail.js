@@ -7,6 +7,10 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 export default function Detail(props) {
 
   const movie = props.navigation.getParam('movie', null);
+
+  const editMovie = () => {
+    props.navigation.navigate('Edit', { movie: movie});
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.itemText}>{movie.title}</Text>
@@ -19,6 +23,7 @@ export default function Detail(props) {
         <Text style={styles.white}> ({movie.no_of_ratings})</Text>
       </View>
       <Text style={styles.description}>{movie.description}</Text>
+      <Button title="Edit" onPress={() => editMovie()} />
     </View>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import apiMovieRater from '../services/apiMovieRater';
 
 export default function Edit(props) {
 
@@ -11,16 +12,29 @@ export default function Edit(props) {
   const saveMovie = () => {
 
     try {
-      const response = apiMovieRater.put(`movies/${movie.id}/`, JSON.stringify({
+      /* fetch(`http://192.168.33.107:8000/api/movies/${movie.id}/`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token e29386be51ab221eaeee59a73b7d70a80428907d`,
+      },
+      body: JSON.stringify({
         title: title,
         description: description,
-      })
+        }),
+    })
+      .then(response => response.json()); */
+      const response = apiMovieRater.put(`movies/${movie.id}/`, {
+        title: title,
+        description: description,
+      }
       )
-        .then(response => response.json())
+        .then(response => response.data)
         .then(movie => {
-          console.log(movie);
+          //console.log(movie);
+          props.navigation.navigate('Detail', { movie: movie, title: movie.title });
         });
-      props.navigation.goBack();
+      // props.navigation.goBack();
     } catch (error) {
       console.log('Error when try save movie. ' + error)
     }
@@ -34,14 +48,14 @@ export default function Edit(props) {
       <TextInput
         style={styles.input}
         placeholder="Title"
-        onChange={text => setTitle(text)}
+        onChangeText={text => setTitle(text)}
         value={title}
       />
       <Text style={styles.label}>Description</Text>
       <TextInput
         style={styles.input}
         placeholder="Description"
-        onChange={text => setDescription(text)}
+        onChangeText={text => setDescription(text)}
         value={description}
       />
       <Button
