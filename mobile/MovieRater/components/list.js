@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity, Button } from 'react-native';
 import apiMovieRater from '../services/apiMovieRater';
 
 const token = '1495eefde1471d75f532c373b7d10d9ac9706c79';
@@ -28,6 +28,15 @@ export default function MovieList(props) {
     props.navigation.navigate('Detail', { movie: movie, title: movie.title });
   }
 
+  const addNewMovie = () => {
+    props.navigation.navigate('Edit', {
+      movie: {
+        title: '',
+        description: '',
+      }
+    });
+  }
+
   return (
     <View>
       {/* <Text>This will be a list.</Text> */}
@@ -48,9 +57,34 @@ export default function MovieList(props) {
         )}
         keyExtractor={(item, index) => index.toString()}
       />
+      <View style={{ marginTop: 20 }} >
+        <Button title="Add new movie" onPress={() => addNewMovie()} />
+      </View>
     </View>
   );
 }
+
+MovieList.navigationsOptions = screenProps => ({
+  title: 'List of movies',
+  headerStyle: {
+    backgroundColor: 'orange'
+  },
+  headerTintColor: '#fff',
+  headerTitleStyle: {
+    fontWeight: 'bold',
+    fontSize: 24,
+  },
+  headerRight: (
+    <Button title="Add new" color="white"
+      onPress={() => screenProps.navigation.navigate('Edit', {
+        movie: {
+          title: '',
+          description: '',
+        },
+      })}
+    />
+  )
+});
 
 const styles = StyleSheet.create({
   container: {

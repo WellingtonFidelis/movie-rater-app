@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, View, Image, Button } from 'react-native';
+import { FlatList, StyleSheet, Text, View, Image, Button, Alert } from 'react-native';
 import apiMovieRater from '../services/apiMovieRater';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
@@ -13,7 +13,20 @@ export default function Detail(props) {
     props.navigation.navigate('Edit', { movie: movie });
   }
   const rateClicked = () => {
-    console.log(highlight);
+    // console.log(highlight);
+    if (highlight > 0 && highlight < 6) {
+      apiMovieRater.post(`/movies/${movie.id}/rate_movie/`, {
+        stars: highlight,
+      })
+        .then(response => response.data)
+        .then(response => {
+          setHighlight(0);
+          Alert.alert("Rating", response.message);
+        })
+        .catch(error => {
+          Alert.alert("Error", error);
+        })
+    }
   }
   return (
     <View style={styles.container}>
@@ -86,7 +99,7 @@ Detail.navigationsOptions = screenProps => ({
       })}
     />
   )
-})
+});
 
 const styles = StyleSheet.create({
   container: {

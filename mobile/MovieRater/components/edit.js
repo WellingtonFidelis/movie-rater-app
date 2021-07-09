@@ -24,17 +24,29 @@ export default function Edit(props) {
         }),
     })
       .then(response => response.json()); */
-      const response = apiMovieRater.put(`movies/${movie.id}/`, {
-        title: title,
-        description: description,
+      if (movie.id) {
+        const response = apiMovieRater.put(`movies/${movie.id}/`, {
+          title: title,
+          description: description,
+        }
+        )
+          .then(response => response.data)
+          .then(movie => {
+            //console.log(movie);
+            props.navigation.navigate('Detail', { movie: movie, title: movie.title });
+          });
+        // props.navigation.goBack();
+      } else {
+        const response = apiMovieRater.post(`movies/`, {
+          title: title,
+          description: description,
+        })
+          .then(response => response.data)
+          .then(movie => {
+            //console.log(movie);
+            props.navigation.navigate('MovieList');
+          });
       }
-      )
-        .then(response => response.data)
-        .then(movie => {
-          //console.log(movie);
-          props.navigation.navigate('Detail', { movie: movie, title: movie.title });
-        });
-      // props.navigation.goBack();
     } catch (error) {
       console.log('Error when try save movie. ' + error)
     }
@@ -60,7 +72,7 @@ export default function Edit(props) {
       />
       <Button
         onPress={() => saveMovie()}
-        title="Save"
+        title={movie.id ? "Edit" : "Add"}
       />
     </View>
   );
