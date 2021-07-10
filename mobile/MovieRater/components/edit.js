@@ -12,7 +12,7 @@ export default function Edit(props) {
   const saveMovie = () => {
     try {
       if (movie.id) {
-        const response = apiMovieRater.put(`movies/${movie.id}/`, {
+        const response = apiMovieRater.put(`api/movies/${movie.id}/`, {
           title: title,
           description: description,
         }
@@ -38,7 +38,7 @@ export default function Edit(props) {
   };
 
   const removeClicked = (movie) => {
-    apiMovieRater.delete(`movies/${movie.id}/`)
+    apiMovieRater.delete(`api/movies/${movie.id}/`)
       .then(response => {
         Alert.alert('Atention', 'Movie removed successfuly.');
         props.navigation.navigate('MovieList');

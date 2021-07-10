@@ -1,25 +1,48 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, Alert, AsyncStorage } from 'react-native';
 import apiMovieRater from '../services/apiMovieRater';
+import Authentication from '../services/apiMovieRater';
 
 export default function Auth(props) {
 
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
-  const auth = () => {
+  const saveData = async (token) => {
+    await AsyncStorage.setItem('MR_Token', `${token}`);
+  }
+
+  const getData = async () => {
+    const token = await AsyncStorage.getItem('MR_Token');
+    if (token) {
+      props.navigation.navigate('MovieList');
+    }
+  }
+
+  const auth = async () => {
     try {
-      const response = apiMovieRater.put(`movies/${movie.id}/`, {
-        title: title,
-        description: description,
+      const response = Authentication.post(`auth/`, {
+        username: userName,
+        password: password,
       }
-      );
-      const data = response.data;
+      )
+        .then(response => response.data.token)
+        .then(token => {
+          saveData(token);
+          props.navigation.navigate('MovieList');
+        })
+        .catch(() => {
+          Alert.alert('Opss.', 'You typed your user name or password wrong!');
+        })
 
     } catch (error) {
       console.log('Error when try authentication user. ' + error)
     }
   };
+
+  useEffect(() => {
+    getData();
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -29,19 +52,21 @@ export default function Auth(props) {
         placeholder="User name"
         onChangeText={text => setUserName(text)}
         value={userName}
+        autoCapitalize={'none'}
       />
       <Text style={styles.label}>Password</Text>
       <TextInput
         style={styles.input}
-        textContentType="password"
         placeholder="Password"
         onChangeText={text => setPassword(text)}
         value={password}
+        autoCapitalize={'none'}
+        secureTextEntry={true}
       />
       <View style={styles.button} />
       <Button
         onPress={() => auth()}
-        title="Add"
+        title="Login"
         color="green"
       />
     </View>

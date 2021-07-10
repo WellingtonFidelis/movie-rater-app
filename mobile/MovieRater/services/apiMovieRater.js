@@ -11,11 +11,12 @@ import axios from 'react-native-axios';
 const token = 'e29386be51ab221eaeee59a73b7d70a80428907d';
 
 const apiMovieRater = axios.create({
-  // baseURL: 'http://127.0.0.1:8000/api/',
-  baseURL: 'http://192.168.33.107:8000/api/',
-  // baseURL: 'http://192.168.0.101:8000/api/', 
+  // baseURL: 'http://127.0.0.1:8000/',
+  baseURL: 'http://192.168.33.107:8000/',
+  // baseURL: 'http://192.168.0.101:8000/', 
 });
 
 axios.defaults.headers.common['Authorization'] = `token ${token}`;
+
 // axios.defaults.headers.get['Content-Type'] = 'application/json';
 export default apiMovieRater;

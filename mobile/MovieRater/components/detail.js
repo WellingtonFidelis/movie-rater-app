@@ -15,7 +15,7 @@ export default function Detail(props) {
   const rateClicked = () => {
     // console.log(highlight);
     if (highlight > 0 && highlight < 6) {
-      apiMovieRater.post(`/movies/${movie.id}/rate_movie/`, {
+      apiMovieRater.post(`api/movies/${movie.id}/rate_movie/`, {
         stars: highlight,
       })
         .then(response => response.data)
@@ -28,6 +28,7 @@ export default function Detail(props) {
         })
     }
   }
+  
   return (
     <View style={styles.container}>
       <Text style={styles.itemText}>{movie.title}</Text>

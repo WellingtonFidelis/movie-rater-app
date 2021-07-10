@@ -7,7 +7,7 @@ export default function MovieList(props) {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    const response = apiMovieRater.get('movies/')
+    const response = apiMovieRater.get('api/movies/')
       .then(response => response.data)
       .then(response => setMovies(response));
   }, []);
