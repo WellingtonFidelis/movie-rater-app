@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, Alert } from 'react-native';
 import apiMovieRater from '../services/apiMovieRater';
 
 export default function Edit(props) {
@@ -10,20 +10,7 @@ export default function Edit(props) {
   const [description, setDescription] = useState(movie.description);
 
   const saveMovie = () => {
-
     try {
-      /* fetch(`http://192.168.33.107:8000/api/movies/${movie.id}/`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Token e29386be51ab221eaeee59a73b7d70a80428907d`,
-      },
-      body: JSON.stringify({
-        title: title,
-        description: description,
-        }),
-    })
-      .then(response => response.json()); */
       if (movie.id) {
         const response = apiMovieRater.put(`movies/${movie.id}/`, {
           title: title,
@@ -32,10 +19,8 @@ export default function Edit(props) {
         )
           .then(response => response.data)
           .then(movie => {
-            //console.log(movie);
             props.navigation.navigate('Detail', { movie: movie, title: movie.title });
           });
-        // props.navigation.goBack();
       } else {
         const response = apiMovieRater.post(`movies/`, {
           title: title,
@@ -52,7 +37,13 @@ export default function Edit(props) {
     }
   };
 
-
+  const removeClicked = (movie) => {
+    apiMovieRater.delete(`movies/${movie.id}/`)
+      .then(response => {
+        Alert.alert('Atention', 'Movie removed successfuly.');
+        props.navigation.navigate('MovieList');
+      });
+  }
 
   return (
     <View style={styles.container}>
@@ -70,9 +61,17 @@ export default function Edit(props) {
         onChangeText={text => setDescription(text)}
         value={description}
       />
+      <View style={styles.button} />
       <Button
         onPress={() => saveMovie()}
         title={movie.id ? "Edit" : "Add"}
+        color=""
+      />
+      <View style={styles.button} />
+      <Button
+        onPress={() => removeClicked(movie)}
+        title="Remove"
+        color="red"
       />
     </View>
   );
@@ -88,6 +87,11 @@ Edit.navigationsOptions = screenProps => ({
     fontWeight: 'bold',
     fontSize: 24,
   },
+  headerRight: (
+    <Button title="Remove" color="white"
+      onPress={() => removeClicked(screenProps.navigation.getParam('movie'))}
+    />
+  )
 })
 
 const styles = StyleSheet.create({
@@ -106,5 +110,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 10,
     margin: 10,
+  },
+  button: {
+    marginTop: 15,
   }
 });
