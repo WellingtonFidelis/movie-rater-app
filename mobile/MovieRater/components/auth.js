@@ -40,10 +40,6 @@ export default function Auth(props) {
     }
   };
 
-  useEffect(() => {
-    getData();
-  }, [])
-
   return (
     <View style={styles.container}>
       <Text style={styles.label}>User name</Text>

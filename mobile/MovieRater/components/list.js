@@ -1,19 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity, Button } from 'react-native';
+import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity, Button, AsyncStorage } from 'react-native';
 import apiMovieRater from '../services/apiMovieRater';
 
 export default function MovieList(props) {
 
   const [movies, setMovies] = useState([]);
 
+  let token = null;
+
+  const getData = async () => {
+    token = await AsyncStorage.getItem('MR_Token');
+    if (token) {
+      const response = apiMovieRater.get('api/movies/')
+        .then(response => response.data)
+        .then(response => setMovies(response));
+    } else {
+      props.navigation.navigate('Auth');
+    }
+  }
+
   useEffect(() => {
-    const response = apiMovieRater.get('api/movies/')
-      .then(response => response.data)
-      .then(response => setMovies(response));
+    getData();
   }, []);
 
   const movieClicked = (movie) => {
-    props.navigation.navigate('Detail', { movie: movie, title: movie.title });
+    props.navigation.navigate('Detail', { movie: movie, title: movie.title, token: token });
   }
 
   const addNewMovie = () => {

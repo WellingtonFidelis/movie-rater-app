@@ -8,6 +8,7 @@ export default function Detail(props) {
 
   const [highlight, setHighlight] = useState(0);
   const movie = props.navigation.getParam('movie', null);
+  const token = props.navigation.getParam('token', '');
 
   const editMovie = () => {
     props.navigation.navigate('Edit', { movie: movie });
