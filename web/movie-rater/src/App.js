@@ -63,7 +63,7 @@ function App() {
   }
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/movies/", {
+    fetch(`http://${process.env.REACT_APP_MACHINE_IP}:8000/api/movies/`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

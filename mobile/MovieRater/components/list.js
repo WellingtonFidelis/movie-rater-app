@@ -11,7 +11,9 @@ export default function MovieList(props) {
   const getData = async () => {
     token = await AsyncStorage.getItem('MR_Token');
     if (token) {
-      const response = apiMovieRater.get('api/movies/')
+      const response = apiMovieRater.get('api/movies/', {
+        headers: { Authorization: `token ${token}` }
+      })
         .then(response => response.data)
         .then(response => setMovies(response));
     } else {
@@ -23,16 +25,19 @@ export default function MovieList(props) {
     getData();
   }, []);
 
-  const movieClicked = (movie) => {
+  const movieClicked = async (movie) => {
+    token = await AsyncStorage.getItem('MR_Token');
     props.navigation.navigate('Detail', { movie: movie, title: movie.title, token: token });
   }
 
-  const addNewMovie = () => {
+  const addNewMovie = async () => {
+    token = await AsyncStorage.getItem('MR_Token');
     props.navigation.navigate('Edit', {
       movie: {
         title: '',
         description: '',
-      }
+      },
+      token: token
     });
   }
 

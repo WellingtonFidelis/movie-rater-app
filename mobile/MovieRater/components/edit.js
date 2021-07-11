@@ -5,6 +5,7 @@ import apiMovieRater from '../services/apiMovieRater';
 export default function Edit(props) {
 
   const movie = props.navigation.getParam('movie', null);
+  const token = props.navigation.getParam('token', '');
 
   const [title, setTitle] = useState(movie.title);
   const [description, setDescription] = useState(movie.description);
@@ -15,16 +16,20 @@ export default function Edit(props) {
         const response = apiMovieRater.put(`api/movies/${movie.id}/`, {
           title: title,
           description: description,
+        }, {
+          headers: { 'Authorization': `token ${token}` }
         }
         )
           .then(response => response.data)
           .then(movie => {
-            props.navigation.navigate('Detail', { movie: movie, title: movie.title });
+            props.navigation.navigate('Detail', { movie: movie, title: movie.title, token: token });
           });
       } else {
-        const response = apiMovieRater.post(`movies/`, {
+        const response = apiMovieRater.post(`api/movies/`, {
           title: title,
           description: description,
+        }, {
+          headers: { 'Authorization': `Token ${token}` }
         })
           .then(response => response.data)
           .then(movie => {
@@ -38,7 +43,9 @@ export default function Edit(props) {
   };
 
   const removeClicked = (movie) => {
-    apiMovieRater.delete(`api/movies/${movie.id}/`)
+    apiMovieRater.delete(`api/movies/${movie.id}/`, {
+      headers: { 'Authorization': `token ${token}` }
+    })
       .then(response => {
         Alert.alert('Atention', 'Movie removed successfuly.');
         props.navigation.navigate('MovieList');
@@ -67,18 +74,22 @@ export default function Edit(props) {
         title={movie.id ? "Edit" : "Add"}
         color=""
       />
-      <View style={styles.button} />
-      <Button
-        onPress={() => removeClicked(movie)}
-        title="Remove"
-        color="red"
-      />
+      {movie.id ? (
+        <React.Fragment>
+          <View style={styles.button} />
+        <Button
+          onPress={() => removeClicked(movie)}
+          title="Remove"
+          color="red"
+        />
+        </React.Fragment>) : (<></>)
+      }
     </View>
   );
 }
 
 Edit.navigationsOptions = screenProps => ({
-  title: screenProps.navigation.getParam('title'),
+  title: movie.id ? "Edit" : "Add",
   headerStyle: {
     backgroundColor: 'orange'
   },

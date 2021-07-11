@@ -11,13 +11,15 @@ export default function Detail(props) {
   const token = props.navigation.getParam('token', '');
 
   const editMovie = () => {
-    props.navigation.navigate('Edit', { movie: movie });
+    props.navigation.navigate('Edit', { movie: movie, token: token });
   }
   const rateClicked = () => {
     // console.log(highlight);
     if (highlight > 0 && highlight < 6) {
       apiMovieRater.post(`api/movies/${movie.id}/rate_movie/`, {
         stars: highlight,
+      }, {
+        headers: { 'Authorization': `token ${token}` }
       })
         .then(response => response.data)
         .then(response => {
@@ -29,7 +31,7 @@ export default function Detail(props) {
         })
     }
   }
-  
+
   return (
     <View style={styles.container}>
       <Text style={styles.itemText}>{movie.title}</Text>

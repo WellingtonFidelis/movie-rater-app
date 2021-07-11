@@ -5,10 +5,11 @@
 // windows token
 // const TOKEN = "e29386be51ab221eaeee59a73b7d70a80428907d";
 
-class apiMovieRater {
+const base_url = process.env.REACT_APP_MACHINE_IP
 
+class apiMovieRater {
   static loginUser(body) {
-    return fetch(`http://127.0.0.1:8000/auth/`, {
+    return fetch(`http://${base_url}:8000/auth/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -19,7 +20,7 @@ class apiMovieRater {
   }
 
   static registerUser(body) {
-    return fetch(`http://127.0.0.1:8000/api/users/`, {
+    return fetch(`http://${base_url}:8000/api/users/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -30,7 +31,7 @@ class apiMovieRater {
   }
 
   static getMovies(token) {
-    return fetch(`http://127.0.0.1:8000/api/movies/`, {
+    return fetch(`http://${base_url}:8000/api/movies/`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -41,7 +42,7 @@ class apiMovieRater {
   }
 
   static updatedMovie(movie_id, body, token) {
-    return fetch(`http://127.0.0.1:8000/api/movies/${movie_id}/`, {
+    return fetch(`http://${base_url}:8000/api/movies/${movie_id}/`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -53,7 +54,7 @@ class apiMovieRater {
   }
 
   static createMovie(body, token) {
-    return fetch(`http://127.0.0.1:8000/api/movies/`, {
+    return fetch(`http://${base_url}:8000/api/movies/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -65,7 +66,7 @@ class apiMovieRater {
   }
 
   static deleteMovie(movie_id, token) {
-    return fetch(`http://127.0.0.1:8000/api/movies/${movie_id}/`, {
+    return fetch(`http://${base_url}:8000/api/movies/${movie_id}/`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
