@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, Alert, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, Alert, AsyncStorage, TouchableOpacity } from 'react-native';
 import apiMovieRater from '../services/apiMovieRater';
 import Authentication from '../services/apiMovieRater';
 
@@ -7,6 +7,7 @@ export default function Auth(props) {
 
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const [registerView, setRegisterView] = useState(false);
 
   const saveData = async (token) => {
     await AsyncStorage.setItem('MR_Token', `${token}`);
@@ -21,24 +22,42 @@ export default function Auth(props) {
 
   const auth = async () => {
     try {
-      const response = Authentication.post(`auth/`, {
-        username: userName,
-        password: password,
+      if (registerView) {
+        const response = Authentication.post(`api/users/`, {
+          username: userName,
+          password: password,
+        }
+        )
+          .then(response => response.data.token)
+          .then(token => {
+            setRegisterView(false);
+          })
+          .catch(() => {
+            Alert.alert('Opss.', 'You typed your user name or password wrong!');
+          })
+      } else {
+        const response = Authentication.post(`auth/`, {
+          username: userName,
+          password: password,
+        }
+        )
+          .then(response => response.data.token)
+          .then(token => {
+            saveData(token);
+            props.navigation.navigate('MovieList');
+          })
+          .catch(() => {
+            Alert.alert('Opss.', 'You typed your user name or password wrong!');
+          })
       }
-      )
-        .then(response => response.data.token)
-        .then(token => {
-          saveData(token);
-          props.navigation.navigate('MovieList');
-        })
-        .catch(() => {
-          Alert.alert('Opss.', 'You typed your user name or password wrong!');
-        })
-
     } catch (error) {
       console.log('Error when try authentication user. ' + error)
     }
   };
+
+  const toggleView = () => {
+    setRegisterView(!registerView);
+  }
 
   return (
     <View style={styles.container}>
@@ -62,9 +81,22 @@ export default function Auth(props) {
       <View style={styles.button} />
       <Button
         onPress={() => auth()}
-        title="Login"
+        title={registerView ? "Register" : "Login"}
         color="green"
       />
+      <TouchableOpacity
+        onPress={() => toggleView()}
+      >
+        {registerView ? (
+          <Text style={styles.register}>
+            Already have an accout? Go back to Login.
+          </Text>
+        ) : (
+          <Text style={styles.register}>
+            Don't have an account? Register here.
+          </Text>
+        )}
+      </TouchableOpacity>
     </View>
   );
 }
@@ -100,5 +132,10 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 15,
+  },
+  register: {
+    fontSize: 18,
+    color: 'orange',
+    marginTop: 50,
   }
 });
